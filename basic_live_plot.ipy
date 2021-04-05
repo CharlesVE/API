@@ -1,0 +1,51 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Mar 15 16:21:44 2021
+
+@author: Charlie
+"""
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Feb  5 16:25:45 2021
+
+@author: Sam_r
+"""
+
+##Live Plot
+
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from matplotlib import style
+import pandas as pd
+import matplotlib.dates as mdates
+%matplotlib qt
+
+style.use('fivethirtyeight')
+
+fig = plt.figure()
+fig.suptitle("SPY Equity Curve")
+ax1 = fig.add_subplot(1,1,1)
+# ax2 = fig.add_subplot(2,1,2)
+
+def animate(i):
+    print(i)
+    graph_data = pd.read_csv(r'C:\Users\Charlie\Documents\CVE\Python\API\TradeTracker - Live Graph\today_equity.csv',parse_dates=["Date"])
+    
+    ax1.clear()
+    ax1.set_xticks(graph_data["Date"]) # Tickmark + label at every plotted point
+    ax1.set_xticklabels(graph_data["Date"],rotation=90)
+    ax1.xaxis.set_major_formatter(mdates.DateFormatter('%d/%m/%Y %H:%M'))
+    ax1.grid(True)
+    ax1.plot_date(graph_data["Date"], graph_data["Equity"],ls="-",marker="o",label="SPY")
+    ax1.legend(loc="upper right")
+
+
+ani = animation.FuncAnimation(fig, animate, interval=3000)
+
+# ani.save("animated.gif", writer = "pillow", fps = 15)
+# plt.draw()
+# plt.gcf().autofmt_xdate()
+fig.tight_layout()
+#fig.legend(loc="upper right")
+fig.show()
+# ani.to_html5_video()
